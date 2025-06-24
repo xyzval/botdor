@@ -1,12 +1,11 @@
-# Bot Telegram OTP XL (Hesda Store)
-## Cara Install di VPS:
-```bash
-apt update && apt install python3 python3-pip -y
-pip3 install -r requirements.txt
-python3 bot.py
-```
-Bot siap dijalankan di VPS dan terhubung ke API Hesda Store.
+# Bot Telegram OTP Hesda Store
 
-wget https://raw.githubusercontent.com/xyzval/botdor/main/install.sh
+## Cara Instalasi Otomatis di VPS:
+
+```bash
+wget https://raw.githubusercontent.com/xyzval/botdor/main/install.sh -O install.sh
 chmod +x install.sh
 ./install.sh
+```
+
+Bot akan otomatis jalan di latar belakang setelah clone dari GitHub dan instal dependensi.
