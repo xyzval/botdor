@@ -2,7 +2,7 @@ import requests
 from config import EMAIL, PASSWORD, API_KEY, BASE_URL
 
 def get_token_xl():
-    url = f"{BASE_URL}/loginotp?hesdastore={API_KEY}"
+    url = f"{BASE_URL}/loginotp?hesdastore={Fv2dN2rKpjSPDDyBaX}"
     return requests.get(url, auth=(EMAIL, PASSWORD)).json()
 
 def get_token_session():
