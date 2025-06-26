@@ -3,7 +3,6 @@ from api import get_token_xl, get_token_session, beli_paket, cek_status
 
 bot = Bot(token="7921247390:AAHELKsIPDGyqDuybVsYvAeX-Sr0CKBXwfo")
 dp = Dispatcher(bot)
-
 registered_users = set()
 
 @dp.message_handler(commands=["start"])
@@ -44,4 +43,3 @@ async def status(msg: types.Message):
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
-    
