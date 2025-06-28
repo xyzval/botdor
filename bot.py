@@ -11,35 +11,51 @@ async def start(msg: types.Message):
     if user_id not in registered_users:
         registered_users.add(user_id)
         await msg.answer("📋 Kamu telah terdaftar sebagai member baru.")
-    await msg.answer("Selamat datang! Gunakan perintah:\n/token\n/session\n/beli\n/status")
+    await msg.answer(
+        "Selamat datang! Gunakan perintah:\n"
+        "/token - Ambil Token XL\n"
+        "/session - Ambil Session Token\n"
+        "/beli [nomor] [id_paket] [token]\n"
+        "/status [order_id]"
+    )
 
 @dp.message_handler(commands=["token"])
 async def token(msg: types.Message):
-    data = get_token_xl()
-    await msg.answer(f"Access Token:\n{data}")
+    try:
+        data = get_token_xl()
+        await msg.answer(f"Access Token:\n{data}")
+    except Exception as e:
+        await msg.answer(f"❌ Gagal mengambil token: {e}")
 
 @dp.message_handler(commands=["session"])
 async def session(msg: types.Message):
-    data = get_token_session()
-    await msg.answer(f"Session Token:\n{data}")
+    try:
+        data = get_token_session()
+        await msg.answer(f"Session Token:\n{data}")
+    except Exception as e:
+        await msg.answer(f"❌ Gagal mengambil session token: {e}")
 
 @dp.message_handler(commands=["beli"])
 async def beli(msg: types.Message):
     try:
-        _, nomor, paket_id, token = msg.text.split()
-        result = beli_paket(nomor, paket_id, token)
-        await msg.answer(str(result))
+        _, nomor, paket_id, token = msg.text.strip().split()
+        data = beli_paket(nomor, paket_id, token)
+        await msg.answer(f"Hasil Pembelian:\n{data}")
+    except ValueError:
+        await msg.answer("❌ Format salah. Gunakan: /beli [nomor] [id_paket] [token]")
     except Exception as e:
-        await msg.answer("Format salah. Gunakan:\n/beli 08xxxx paket_id token\nError: " + str(e))
+        await msg.answer(f"❌ Gagal melakukan pembelian: {e}")
 
 @dp.message_handler(commands=["status"])
 async def status(msg: types.Message):
     try:
-        _, order_id = msg.text.split()
-        result = cek_status(order_id)
-        await msg.answer(str(result))
+        _, order_id = msg.text.strip().split()
+        data = cek_status(order_id)
+        await msg.answer(f"Status Pesanan:\n{data}")
+    except ValueError:
+        await msg.answer("❌ Format salah. Gunakan: /status [order_id]")
     except Exception as e:
-        await msg.answer("Gunakan format: /status IDTransaksi\nError: " + str(e))
+        await msg.answer(f"❌ Gagal cek status: {e}")
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
